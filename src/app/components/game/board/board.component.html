@@ -1,0 +1,72 @@
+
+<div class="app-score-board-upper">
+    <div>Upper Section:</div>
+    <table class="app-score-board">
+        <tr>
+            <th></th>
+            <th>Score</th>
+        </tr>
+        <tr>
+            <th>Ones</th>
+            <td>{{ gameState.scoreSlots.ones }}</td>
+        </tr>
+        <tr>
+            <th>Twos</th>
+            <td>{{ gameState.scoreSlots.twos }}</td>
+        </tr>
+        <tr>
+            <th>Threes</th>
+            <td>{{ gameState.scoreSlots.threes }}</td>
+        </tr>
+        <tr>
+            <th>Fours</th>
+            <td>{{ gameState.scoreSlots.fours }}</td>
+        </tr>
+        <tr>
+            <th>Fives</th>
+            <td>{{ gameState.scoreSlots.fives }}</td>
+        </tr>
+        <tr>
+            <th>Sixes</th>
+            <td>{{ gameState.scoreSlots.sixes }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="app-score-board-lower">
+    <div>Lower Section:</div>
+    <table class="app-score-board">
+        <tr>
+            <th></th>
+            <th>Score</th>
+        </tr>
+        <tr>
+            <th>3 of a Kind</th>
+            <td>{{ gameState.scoreSlots.threeOfAKind }}</td>
+        </tr>
+        <tr>
+            <th>4 of a Kind</th>
+            <td>{{ gameState.scoreSlots.fourOfAKind }}</td>
+        </tr>
+        <tr>
+            <th>Full House</th>
+            <td>{{ gameState.scoreSlots.fullHouse }}</td>
+        </tr>
+        <tr>
+            <th>Small Straight</th>
+            <td>{{ gameState.scoreSlots.shortStraight }}</td>
+        </tr>
+        <tr>
+            <th>Large Straight</th>
+            <td>{{ gameState.scoreSlots.straight }}</td>
+        </tr>
+        <tr>
+            <th>Yahtzee</th>
+            <td>{{ gameState.scoreSlots.yahtzee }}</td>
+        </tr>
+        <tr>
+            <th>Chance</th>
+            <td>{{ gameState.scoreSlots.chance }}</td>
+        </tr>
+    </table>
+</div>

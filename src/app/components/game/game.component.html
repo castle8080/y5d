@@ -1,0 +1,16 @@
+<h2>Playing Game</h2>
+
+<div class="app-game-actions">
+  <button (click)="start()">New Game</button>
+  <button (click)="roll()">Roll</button>
+</div>
+
+
+<div *ngIf="(gameState$ | async) as gs">
+  <div *ngIf="gs.rollCount > 0">
+    Roll #: {{ gs.rollCount }}
+    <br/>
+    <app-dice [gameState]="gs"></app-dice>
+  </div>
+  <app-board [gameState]="gs"></app-board>
+</div>

@@ -1,0 +1,26 @@
+.app-score-board td, .app-score-board th {
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
+}
+
+.app-score-board th {
+    background-color: navy;
+    color: white;
+}
+
+.app-score-board {
+    border-collapse: collapse;
+}
+
+.app-score-board-upper {
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
+
+.app-score-board-lower {
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
