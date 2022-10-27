@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 import { State, Action, StateContext } from '@ngxs/store';
 import * as _ from 'lodash';
 
@@ -41,6 +42,13 @@ export class DiceX {
         return DiceX.rollN(5) as Dice;
     }
 
+    public static getDieCounts(dice: Dice): Map<Die, number> {
+        const dieCounts = new Map<Die, number>();
+        dice.forEach(d => {
+            dieCounts.set(d, (dieCounts.get(d) || 0) + 1);
+        });
+        return dieCounts;
+    }
 }
 
 export interface ScoreSlots {
@@ -53,14 +61,15 @@ export interface ScoreSlots {
     threeOfAKind: number|null;
     fourOfAKind: number|null;
     fullHouse: number|null;
-    shortStraight: number|null;
-    straight: number|null;
+    smallStraight: number|null;
+    largeStraight: number|null;
     yahtzee: number|null;
     chance: number|null;
-    bonus: number;
+    bonus: number|null;
 }
 
 export class ScoreSlots {
+
     static create(): ScoreSlots {
         return {
             ones: null,
@@ -72,11 +81,73 @@ export class ScoreSlots {
             threeOfAKind: null,
             fourOfAKind: null,
             fullHouse: null,
-            shortStraight: null,
-            straight: null,
+            smallStraight: null,
+            largeStraight: null,
             yahtzee: null,
             chance: null,
-            bonus: 0
+            bonus: null
+        };
+    }
+
+    static getPossibleScores(dice: Dice): ScoreSlots {
+        function getDieCountScore(dieCounts: Map<Die, number>, die: Die): number|null {
+            const dc = dieCounts.get(die);
+            return (dc) ? dc! * die : null;
+        }
+    
+        function getMaxDieCount(dieCounts: Map<Die, number>): [Die, number] {
+            return _.maxBy([...dieCounts.entries()], ([d, dCount]) => dCount)!;
+        }
+    
+        function sumDieCounts(dieCounts: Map<Die, number>): number {
+            let score = 0;
+            for (const [d, dCount] of dieCounts.entries()) {
+                score += d * dCount;
+            }
+            return score;
+        }
+
+        function isFullHouse(dieCounts: Map<Die, number>): boolean {
+            return dieCounts.size == 2;
+        }
+
+        function getMaxSequenceLength(dice: Dice) {
+            let dieSorted = [...dice];
+            dieSorted.sort();
+            dieSorted = _.sortedUniq(dieSorted);
+            let sequences: [number, number][] = [];
+            let start = 0;
+            
+            for (let pos = 1; pos < dieSorted.length; pos++) {
+                if (dieSorted[pos] != dieSorted[pos - 1] + 1) {
+                    sequences.push([start, pos]);
+                    start = pos;
+                }
+            }
+            sequences.push([start, dieSorted.length]);
+            return _(sequences).map(([s, e]) => e - s).max()!;
+        }
+
+        const dieCounts = DiceX.getDieCounts(dice);
+        const [maxDieCountDie, maxDieCount] = getMaxDieCount(dieCounts);
+        const diceSum = sumDieCounts(dieCounts);
+        const maxSequenceLength = getMaxSequenceLength(dice);
+
+        return {
+            ones: getDieCountScore(dieCounts, 1),
+            twos: getDieCountScore(dieCounts, 2),
+            threes: getDieCountScore(dieCounts, 3),
+            fours: getDieCountScore(dieCounts, 4),
+            fives: getDieCountScore(dieCounts, 5),
+            sixes: getDieCountScore(dieCounts, 6),
+            threeOfAKind: maxDieCount >= 3 ? diceSum : 0,
+            fourOfAKind: maxDieCount >= 4 ? diceSum : 0,
+            fullHouse: isFullHouse(dieCounts) ? 25 : 0,
+            smallStraight: maxSequenceLength >= 4 ? 30 : 0,
+            largeStraight: maxSequenceLength >= 5 ? 40 : 0,
+            yahtzee: maxDieCount >= 5 ? 50 : 0,
+            chance: diceSum,
+            bonus: null
         };
     }
 }
@@ -112,6 +183,36 @@ export class GameStateModel {
             scoreSlots: ScoreSlots.create()
         }
     }
+
+    static getPossibleScoreSlots(gs: GameStateModel): ScoreSlots {
+        const rollScores = ScoreSlots.getPossibleScores(gs.dice);
+        const bonusAble =
+            rollScores.yahtzee !== null &&
+            gs.scoreSlots.yahtzee !== null &&
+            gs.scoreSlots.yahtzee > 0;
+
+        function pscore(current_score: number|null, roll_score: number|null): number|null {
+            return (current_score === null) ? roll_score : null;
+        }
+
+        return {
+            ones: pscore(gs.scoreSlots.ones, rollScores.ones),
+            twos: pscore(gs.scoreSlots.twos, rollScores.twos),
+            threes: pscore(gs.scoreSlots.threes, rollScores.threes),
+            fours: pscore(gs.scoreSlots.fours, rollScores.fours),
+            fives: pscore(gs.scoreSlots.fives, rollScores.fives),
+            sixes: pscore(gs.scoreSlots.sixes, rollScores.sixes),
+            threeOfAKind: pscore(gs.scoreSlots.threeOfAKind, rollScores.threeOfAKind),
+            fullHouse: pscore(gs.scoreSlots.fullHouse, rollScores.fullHouse),
+            fourOfAKind: pscore(gs.scoreSlots.fourOfAKind, rollScores.fourOfAKind),
+            smallStraight: pscore(gs.scoreSlots.smallStraight, rollScores.smallStraight),
+            largeStraight: pscore(gs.scoreSlots.largeStraight, rollScores.largeStraight),
+            yahtzee: pscore(gs.scoreSlots.yahtzee, rollScores.yahtzee),
+            chance: pscore(gs.scoreSlots.chance, rollScores.chance),
+            bonus: bonusAble ? (gs.scoreSlots.bonus || 0) + 50 : gs.scoreSlots.bonus
+        };
+    }
+
 }
 
 @State<GameStateModel>({ name: 'game', defaults: GameStateModel.create() })

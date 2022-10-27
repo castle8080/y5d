@@ -54,11 +54,11 @@
         </tr>
         <tr>
             <th>Small Straight</th>
-            <td>{{ gameState.scoreSlots.shortStraight }}</td>
+            <td>{{ gameState.scoreSlots.smallStraight }}</td>
         </tr>
         <tr>
             <th>Large Straight</th>
-            <td>{{ gameState.scoreSlots.straight }}</td>
+            <td>{{ gameState.scoreSlots.largeStraight }}</td>
         </tr>
         <tr>
             <th>Yahtzee</th>
@@ -70,3 +70,8 @@
         </tr>
     </table>
 </div>
+
+<div>
+    Scores: {{ possibleRollScores | json }}
+</div>
+
