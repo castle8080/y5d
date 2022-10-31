@@ -82,14 +82,16 @@ export class ScoreSlots {
 
         // Standard copy of score slots.
         ScoreSlotKeys.forEach(k => {
-            if (current[k] === undefined && allPossible[k] !== undefined) {
+            if (current[k] === undefined && allPossible[k] !== undefined && k != 'bonus') {
                 possible[k] = allPossible[k];
             }
         });
 
         // Bonus is special because you can have unlimited bonuses.
-        if (current.yahtzee !== undefined && current.yahtzee > 0 &&
-            allPossible.yahtzee !== undefined)
+        if (current.yahtzee !== undefined &&
+            current.yahtzee > 0 &&
+            allPossible.yahtzee !== undefined &&
+            allPossible.yahtzee > 0)
         {
             possible.bonus = (current.bonus || 0) + 100;
         }
@@ -98,9 +100,9 @@ export class ScoreSlots {
     }
 
     static getAllPossibleScores(dice: Dice): ScoreSlots {
-        function getDieCountScore(dieCounts: Map<Die, number>, die: Die): number|undefined {
-            const dc = dieCounts.get(die);
-            return (dc) ? dc! * die : undefined;
+        function getDieCountScore(dieCounts: Map<Die, number>, die: Die): number {
+            const dc = dieCounts.get(die) || 0;
+            return dc * die;
         }
     
         function getMaxDieCount(dieCounts: Map<Die, number>): [Die, number] {

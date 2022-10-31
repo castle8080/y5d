@@ -14,7 +14,7 @@ type ScoreSlotViewType =
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnChanges {
+export class BoardComponent implements OnChanges, OnInit {
 
   @Input()
   gameState!: GameStateModel;
@@ -23,9 +23,16 @@ export class BoardComponent implements OnChanges {
 
   constructor(private store: Store) { }
 
+  ngOnInit(): void {
+    this.recalculate();
+  }
+
   ngOnChanges(): void {
+    this.recalculate();
+  }
+
+  recalculate(): void {
     this.possibleRollScores = GameStateModel.getPossibleScoreSlots(this.gameState);
-    console.log("Possible scores: ", this.possibleRollScores);
   }
 
   scoreSlotSelected(k: scoring.ScoreSlotKey) {
