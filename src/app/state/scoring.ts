@@ -91,7 +91,7 @@ export class ScoreSlots {
         if (current.yahtzee !== undefined && current.yahtzee > 0 &&
             allPossible.yahtzee !== undefined)
         {
-            possible.bonus = (current.bonus || 0) + 50;
+            possible.bonus = (current.bonus || 0) + 100;
         }
 
         return possible;

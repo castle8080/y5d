@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GameComponent } from './game.component';
+import { NgxsModule, Store } from '@ngxs/store';
+import { GameState } from 'app/state/game-state';
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -8,6 +9,9 @@ describe('GameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        NgxsModule.forRoot([GameState])
+      ],
       declarations: [ GameComponent ]
     })
     .compileComponents();
