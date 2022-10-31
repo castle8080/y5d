@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { GameStateModel, LoadGameAction, RollUnselectedDiceAction, StartGameAction } from '../../state/game-state';
+import { GameStateModel } from 'app/state/game-state';
+import { LoadGameAction, RollUnselectedDiceAction, StartGameAction } from 'app/state/actions';
 
 @Component({
   selector: 'app-game',
@@ -15,6 +16,9 @@ export class GameComponent implements OnInit {
 
   constructor(private store: Store) {
     this.gameState$ = store.select(state => state.game);
+    this.gameState$.subscribe(gs => {
+      console.log("Game: ", gs);
+    });
   }
 
   ngOnInit(): void {

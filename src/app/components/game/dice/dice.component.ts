@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 
-import { GameStateModel } from '../../../state/game-state';
+import { GameStateModel } from 'app/state/game-state';
 
 @Component({
   selector: 'app-dice',

@@ -1,3 +1,17 @@
+.app-score-board {
+    border-collapse: collapse;
+}
+
+.app-score-board-upper {
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
+
+.app-score-board-lower {
+    float: left;
+    margin: 5px 5px 5px 5px;
+}
+
 .app-score-board td, .app-score-board th {
     border-width: 1px;
     border-color: black;
@@ -11,16 +25,28 @@
     color: white;
 }
 
-.app-score-board {
-    border-collapse: collapse;
+.app-score-slot-score {
+    background: green;
+    font-weight: bold;
+    text-align: center;
 }
 
-.app-score-board-upper {
-    float: left;
-    margin: 5px 5px 5px 5px;
+.app-score-slot-possible {
+    background: #DDDDDD;
+    color: red;
+    text-align: center;
+    font-style: italic;
+    cursor: pointer;
 }
 
-.app-score-board-lower {
-    float: left;
-    margin: 5px 5px 5px 5px;
+.app-score-slot-possible:hover {
+    background: #aaaaff;
+    color: red;
+    text-align: center;
+    font-style: italic;
+    cursor: pointer;
+}
+
+.app-score-slot-none {
+    background: #DDDDDD;
 }

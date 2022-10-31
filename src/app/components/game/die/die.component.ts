@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 
-import { Die, GameState, GameStateModel, SetDieSelectionAction } from 'src/app/state/game-state';
+import { GameStateModel } from 'app/state/game-state';
+import { Die, DieNumber } from 'app/state/dice';
+import { SetDieSelectionAction } from 'app/state/actions';
 
 @Component({
   selector: 'app-die',
@@ -26,11 +28,11 @@ export class DieComponent implements OnInit {
   }
 
   isDieSelected() {
-    return GameStateModel.isDieSelected(this.gameState, this.dieNumber);
+    return GameStateModel.isDieSelected(this.gameState, this.dieNumber as DieNumber);
   }
 
   toggleSelect() {
     console.log("Selecting die: " + this.dieNumber);
-    this.store.dispatch(new SetDieSelectionAction(this.dieNumber, !this.isDieSelected()));
+    this.store.dispatch(new SetDieSelectionAction(this.dieNumber as DieNumber, !this.isDieSelected()));
   }
 }

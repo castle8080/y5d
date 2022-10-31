@@ -7,6 +7,10 @@
     stroke-linecap: round;
 }
 
+.app-die-svg:hover {
+    cursor: pointer;
+}
+
 .app-die-background {
     fill: #AAAAAA;
     stroke-width:3;
