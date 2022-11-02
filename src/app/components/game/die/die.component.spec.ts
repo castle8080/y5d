@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { DieComponent } from './die.component';
 import { GameState, GameStateModel } from 'app/state/game-state';

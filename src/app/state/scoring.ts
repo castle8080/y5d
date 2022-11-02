@@ -62,7 +62,40 @@ const ScoreSlotTitles = new Map<ScoreSlotKey, string>([
     ["bonus", "Bonus"]
 ]);
 
+export interface ScoreTotals {
+    upperSubTotal: number;
+    upperBonus: undefined|number;
+    upperTotal: number;
+    lowerTotal: number;
+    total: number;
+}
+
 export class ScoreSlots {
+
+    static getTotals(current: ScoreSlots): ScoreTotals {
+        const upperSubTotal =
+            _(UpperScoreSlotKeys)
+            .map(k => current[k] || 0)
+            .sum();
+
+        const upperBonus = upperSubTotal >= 63 ? 35 : undefined;
+        const upperTotal = upperSubTotal + (upperBonus || 0);
+
+        const lowerTotal =
+            _(LowerScoreSlotKeys)
+            .map(k => current[k] || 0)
+            .sum();
+
+        const total = upperTotal + lowerTotal;
+
+        return {
+            upperSubTotal,
+            upperBonus,
+            upperTotal,
+            lowerTotal,
+            total
+        };
+    }
 
     static getTitle(k: ScoreSlotKey): string {
         return ScoreSlotTitles.get(k) as string;

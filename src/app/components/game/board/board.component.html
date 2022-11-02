@@ -23,6 +23,18 @@
                 ></td>
             </ng-container>
         </tr>
+        <tr>
+            <th>Sub Total</th>
+            <td>{{ totals.upperSubTotal }}</td>
+        </tr>
+        <tr>
+            <th>Bonus</th>
+            <td>{{ totals.upperSubTotal }}</td>
+        </tr>
+        <tr>
+            <th>Upper Total</th>
+            <td>{{ totals.upperTotal }}</td>
+        </tr>
     </table>
 </div>
 
@@ -50,6 +62,14 @@
                     class="app-score-slot-none"
                 ></td>
             </ng-container>
+        </tr>
+        <tr>
+            <th>Lower Total</th>
+            <td>{{ totals.lowerTotal }}</td>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <td>{{ totals.total }}</td>
         </tr>
     </table>
 </div>

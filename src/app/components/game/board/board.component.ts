@@ -4,6 +4,8 @@ import { GameStateModel } from 'app/state/game-state';
 import * as scoring from 'app/state/scoring';
 import { ChooseScoreSlotAction } from 'app/state/actions';
 
+import * as _ from 'lodash';
+
 type ScoreSlotViewType = 
     "score" |
     "possible" |
@@ -20,6 +22,7 @@ export class BoardComponent implements OnChanges, OnInit {
   gameState!: GameStateModel;
 
   possibleRollScores!: scoring.ScoreSlots;
+  totals!: scoring.ScoreTotals;
 
   constructor(private store: Store) { }
 
@@ -33,6 +36,7 @@ export class BoardComponent implements OnChanges, OnInit {
 
   recalculate(): void {
     this.possibleRollScores = GameStateModel.getPossibleScoreSlots(this.gameState);
+    this.totals = scoring.ScoreSlots.getTotals(this.gameState.scoreSlots);
   }
 
   scoreSlotSelected(k: scoring.ScoreSlotKey) {
@@ -72,5 +76,4 @@ export class BoardComponent implements OnChanges, OnInit {
       return "none";
     }
   }
-
 }
