@@ -1,3 +1,7 @@
+/**
+ * Logic for knowing what possible scores may be taken
+ * and getting totals for a game.
+ */
 import { Die, Dice, DiceX } from './dice';
 import * as _ from 'lodash';
 

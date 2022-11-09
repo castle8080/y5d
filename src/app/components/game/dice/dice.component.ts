@@ -1,3 +1,6 @@
+/**
+ * Displays the dice.
+ */
 import { Component, OnInit, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 

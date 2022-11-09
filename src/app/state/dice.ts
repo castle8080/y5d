@@ -1,3 +1,6 @@
+/**
+ * Basic operations and definitions for dice.
+ */
 import * as _ from 'lodash';
 
 export type Die = 1|2|3|4|5|6;

@@ -50,3 +50,10 @@
 .app-score-slot-none {
     background: #DDDDDD;
 }
+
+.app-score-slot-totals {
+    background: #444444;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

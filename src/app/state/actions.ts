@@ -1,3 +1,6 @@
+/**
+ * The actions of the game.
+ */
 import { ScoreSlotKey } from "app/state/scoring";
 import { DieNumber } from "app/state/dice";
 

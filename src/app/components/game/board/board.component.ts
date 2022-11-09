@@ -1,3 +1,6 @@
+/**
+ * Displays the score board.
+ */
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { GameStateModel } from 'app/state/game-state';

@@ -1,3 +1,7 @@
+/**
+ * Contains the definition of the game state and a definition
+ * for a store to interact with the state using NGXS.
+ */
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext } from '@ngxs/store';
 import * as _ from 'lodash';
@@ -19,6 +23,7 @@ import {
 
 export interface GameStateModel {
     startTime: Date;
+    endTime?: Date;
     rollCount: number;
     dice: Dice;
     selectedDice: number[];
@@ -124,6 +129,9 @@ export class GameStateModel {
                 dice: DiceX.rollAll(),
                 selectedDice: []
             };
+        }
+        else {
+            ngs = { ...ngs, endTime: new Date() };
         }
 
         return ngs;

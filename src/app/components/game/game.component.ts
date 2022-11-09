@@ -1,6 +1,9 @@
+/**
+ * This is the main component for a game.
+ */
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import * as rx from 'rxjs';
 
 import { GameStateModel } from 'app/state/game-state';
 import { LoadGameAction, RollUnselectedDiceAction, StartGameAction } from 'app/state/actions';
@@ -12,10 +15,12 @@ import { LoadGameAction, RollUnselectedDiceAction, StartGameAction } from 'app/s
 })
 export class GameComponent implements OnInit {
 
-  gameState$: Observable<GameStateModel>;
+  gameState$: rx.Observable<GameStateModel>;
+  gameComplete$: rx.Observable<boolean>;
 
   constructor(private store: Store) {
     this.gameState$ = store.select(state => state.game);
+    this.gameComplete$ = this.gameState$.pipe(rx.map(gs => gs.endTime !== undefined));
     this.gameState$.subscribe(gs => {
       console.log("Game: ", gs);
     });
